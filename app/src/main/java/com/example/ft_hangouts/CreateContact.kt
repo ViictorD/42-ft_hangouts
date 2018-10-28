@@ -4,8 +4,30 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.View
+import android.content.Intent
+import android.provider.MediaStore
+import android.graphics.Bitmap
+import android.app.Activity
+import android.arch.persistence.room.Room
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
+import com.example.ft_hangouts.Utility.doAsync
+import com.example.ft_hangouts.database.AppDatabase
+import com.example.ft_hangouts.database.User
+import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.lang.Exception
+import kotlin.math.round
+
 
 class CreateContact : AppCompatActivity() {
+
+    val GET_FROM_GALLERY = 3
+
+    private var image: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,9 +37,6 @@ class CreateContact : AppCompatActivity() {
         supportActionBar!!.title = "Ajouter un contact"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true)
-//        getSupportActionBar().setDisplayShowHomeEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -25,9 +44,82 @@ class CreateContact : AppCompatActivity() {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+
+
+    fun addPicture(@Suppress("UNUSED_PARAMETER") view: View)
+    {
+        startActivityForResult(Intent(Intent.ACTION_PICK,
+            android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY)
+
+
+
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        //Detects request codes
+        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            val selectedImage = data!!.data
+            try {
+                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
+                val button = findViewById<ImageButton>(R.id.add_picture)
+                var toremove = 0
+                var percent = 100
+                if (bitmap.height > 600)
+                {
+                    toremove = bitmap.height - 600
+                    percent = (toremove * 100) / bitmap.height
+                }
+
+                this.image = Bitmap.createScaledBitmap(bitmap, bitmap.width - ((bitmap.width * percent) / 100), bitmap.height - toremove, false)
+
+                button.setImageBitmap(this.image)
+
+
+            } catch (e: FileNotFoundException) {
+                this.image = null
+            } catch (e: IOException) {
+                this.image = null
+            }
+        }
+    }
+
+    fun saveContact(@Suppress("UNUSED_PARAMETER") view: View)
+    {
+        val firstname = findViewById<EditText>(R.id.input_first_name).text.toString()
+        val lastname = findViewById<EditText>(R.id.input_last_name).text.toString()
+        val phone = findViewById<EditText>(R.id.input_phone).text.toString()
+
+        if (firstname.length == 0 || phone.length == 0)
+        {
+            Toast.makeText(applicationContext, resources.getString(R.string.missing_fields), Toast.LENGTH_LONG).show()
+            return
+        }
+
+        var byteArray: ByteArray? = null
+
+        if (this.image != null)
+        {
+            val stream = ByteArrayOutputStream()
+            this.image!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            byteArray = stream.toByteArray()
+        }
+
+        try {
+            doAsync {
+                val db = AppDatabase.getInstance(this)
+                db.userDao().insert(User(db.userDao().getAll().count(), firstname, lastname, phone, byteArray))
+            }.execute()
+        }
+        catch (e: Exception)
+        {
+            Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
+        }
+
+        Toast.makeText(applicationContext, resources.getString(R.string.created), Toast.LENGTH_SHORT).show()
+        onBackPressed()
+    }
+
 }
