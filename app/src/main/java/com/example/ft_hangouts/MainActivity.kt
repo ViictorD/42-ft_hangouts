@@ -27,6 +27,10 @@ import android.view.View
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import android.preference.PreferenceManager
+import android.content.SharedPreferences
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
         fab.setOnClickListener {
             this.myActivity = true
             startActivityForResult(Intent(this, CreateContact::class.java),  1/*, ActivityOptions.makeSceneTransitionAnimation(this).toBundle()*/)

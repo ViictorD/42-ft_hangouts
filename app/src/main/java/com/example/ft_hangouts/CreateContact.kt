@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.example.ft_hangouts.Utility.doAsync
 import com.example.ft_hangouts.database.AppDatabase
 import com.example.ft_hangouts.database.User
+import kotlinx.android.synthetic.main.activity_create_contact.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
@@ -35,6 +36,7 @@ class CreateContact : AppCompatActivity() {
         setContentView(R.layout.activity_create_contact)
         val t = findViewById<Toolbar>(R.id.toolbar2)
         setSupportActionBar(t)
+
         supportActionBar!!.title = "Ajouter un contact" // mettre dans string.xml
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
@@ -105,9 +107,12 @@ class CreateContact : AppCompatActivity() {
     {
         val firstname = findViewById<EditText>(R.id.input_first_name).text.toString()
         val lastname = findViewById<EditText>(R.id.input_last_name).text.toString()
-        val phone = findViewById<EditText>(R.id.input_phone).text.toString()
+        var phone = findViewById<EditText>(R.id.input_phone).text.toString()
 
-        if (firstname.length == 0 || phone.length == 0)
+        if (phone[0] == '0')
+            phone = "+33" + phone.substring(1, phone.length)
+
+        if (firstname.isEmpty() || phone.isEmpty())
         {
             Toast.makeText(applicationContext, resources.getString(R.string.missing_fields), Toast.LENGTH_LONG).show() // mettre dans string
             return

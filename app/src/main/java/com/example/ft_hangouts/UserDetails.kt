@@ -83,14 +83,16 @@ class UserDetails : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     fun goCall(view: View)
     {
-        val intent = Intent(Intent.ACTION_CALL)
-
-        val nb = findViewById<TextView>(R.id.phone_number)
-        intent.data = Uri.parse("tel:${nb.text}")
         if (ContextCompat.checkSelfPermission(applicationContext, "android.permission.CALL_PHONE") != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, arrayOf("android.permission.CALL_PHONE"), 1)
         else
+        {
+            val intent = Intent(Intent.ACTION_CALL)
+            val nb = findViewById<TextView>(R.id.phone_number)
+            intent.data = Uri.parse("tel:${nb.text}")
             startActivity(intent)
+
+        }
     }
 
     fun goDelete(view: View)
@@ -112,6 +114,13 @@ class UserDetails : AppCompatActivity() {
         intent.putExtra("id", this.id)
         startActivityForResult(intent, 1)
         // sur on receive on refresh les datas
+    }
+
+    fun goSms(view: View)
+    {
+        val intent = Intent(this, Message::class.java)
+        intent.putExtra("phone", findViewById<TextView>(R.id.phone_number).text)
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)

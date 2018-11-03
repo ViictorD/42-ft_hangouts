@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/toolbar2" app:layout_constraintHorizontal_bias="0.0"
-            android:background="@color/colorPrimaryDark"/>
+            android:theme="?attr/actionBarTheme" android:background="@color/colorPrimaryDark"/>
 
     <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:id="@+id/scrollView2"
