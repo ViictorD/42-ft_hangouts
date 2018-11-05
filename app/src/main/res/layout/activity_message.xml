@@ -5,7 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Message">
+        tools:context=".Message"
+        android:focusableInTouchMode="true">
 
     <EditText
             android:layout_width="0dp"
@@ -42,9 +43,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:scrollbars="none" android:id="@+id/scroll_sms"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:scrollbars="none" android:id="@+id/scroll_sms">
         <android.support.constraint.ConstraintLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"

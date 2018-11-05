@@ -34,7 +34,7 @@
                 android:label="@string/title_activity_user_details"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Message" android:windowSoftInputMode="adjustResize">
+        <activity android:name=".Message" android:windowSoftInputMode="adjustPan">
         </activity>
         <receiver android:name="com.example.ft_hangouts.SmsBroadcastReceiver">
             <intent-filter>

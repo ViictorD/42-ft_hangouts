@@ -246,6 +246,7 @@ class Message : AppCompatActivity() {
                         else
                             this.add_receveid_msg(item.date, item.message)
                     }
+                    this.scrollDown(View(this))
                 }
             } catch (e: Exception)
             {
