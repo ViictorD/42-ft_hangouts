@@ -131,9 +131,9 @@ class CreateContact : AppCompatActivity() {
             doAsync {
                 val db = AppDatabase.getInstance(this)
                 if (this.id != -1)
-                    db.userDao().insert(User(this.id, firstname, lastname, phone, byteArray))
+                    db.userDao().insert(User(this.id, firstname, lastname, phone, byteArray, ""))
                 else
-                    db.userDao().insert(User(getNewId(db), firstname, lastname, phone, byteArray))
+                    db.userDao().insert(User(getNewId(db), firstname, lastname, phone, byteArray, ""))
 
             }.execute()
         }

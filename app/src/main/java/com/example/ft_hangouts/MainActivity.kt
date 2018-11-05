@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity() {
     var bckgnd_time: Date = Calendar.getInstance().time
     var myActivity: Boolean = true
 
+    object getLanguage {
+        @JvmStatic var language = "en"
+    }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +51,12 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(Intent(this, CreateContact::class.java),  1/*, ActivityOptions.makeSceneTransitionAnimation(this).toBundle()*/)
         }
 
-        this.fill_user()
+        try {
+            this.fill_user()
+        } catch (e: Exception)
+        {
+            Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+        }
     }
 
     public override fun onResume() {

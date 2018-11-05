@@ -120,6 +120,7 @@ class UserDetails : AppCompatActivity() {
     {
         val intent = Intent(this, Message::class.java)
         intent.putExtra("phone", findViewById<TextView>(R.id.phone_number).text)
+        intent.putExtra("id", this.id)
         startActivity(intent)
     }
 

@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
 @Entity
-class User constructor(id: Int, firstName: String, lastName: String, phone: String, image: ByteArray?)
+class User constructor(id: Int, firstName: String, lastName: String, phone: String, image: ByteArray?, sms: String)
 {
     @PrimaryKey
     var id: Int = id
@@ -21,4 +21,7 @@ class User constructor(id: Int, firstName: String, lastName: String, phone: Stri
 
     @ColumnInfo(name = "image")
     var image: ByteArray? = image
+
+    @ColumnInfo(name = "sms")
+    var sms: String = sms
 }

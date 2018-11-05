@@ -16,7 +16,8 @@
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp" android:textSize="18sp" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/btn_send" android:layout_marginRight="8dp"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn_send" android:layout_marginRight="8dp"
+            android:onClick="scrollDown"/>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -24,7 +25,8 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btn_send" android:id="@+id/delimiter">
+            app:layout_constraintBottom_toTopOf="@+id/btn_send" android:id="@+id/delimiter"
+            app:layout_constraintTop_toBottomOf="@+id/scroll_sms" android:layout_marginTop="8dp">
     </LinearLayout>
     <ImageButton
             android:layout_width="58dp"
@@ -33,136 +35,29 @@
             app:layout_constraintEnd_toEndOf="parent" android:id="@+id/btn_send"
             app:layout_constraintBottom_toBottomOf="parent" android:background="@android:color/transparent"
             android:scaleType="fitCenter" android:layout_marginBottom="4dp" android:onClick="goSendSms"/>
-    <TableLayout
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:stretchColumns="*"
-            app:layout_constraintBottom_toTopOf="@+id/delimiter"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:fillViewport="true" app:layout_constraintBottom_toTopOf="@+id/delimiter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:gravity="bottom">
-
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:gravity="end">
-            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:gravity="end"
-                          android:paddingBottom="8dp" android:paddingLeft="16dp" android:paddingRight="16dp"
-                          android:paddingTop="8dp">
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_sent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/LinearLayout2"
-                        app:layout_constraintBottom_toTopOf="@+id/delimiter"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="17sp"
-                            android:maxWidth="320dp" android:text="abc" android:layout_weight="1"/>
-                    <TextView
-                            android:text="3 NOV. À 15:02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView3"
-                            android:textSize="9sp" android:layout_weight="1"/>
-                </LinearLayout>
-            </LinearLayout>
-        </TableRow>
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:gravity="end">
-            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:gravity="start"
-                          android:paddingBottom="8dp" android:paddingLeft="16dp" android:paddingRight="16dp"
-                          android:paddingTop="8dp">
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_recevied"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/LinearLayout2"
-                        app:layout_constraintBottom_toTopOf="@+id/delimiter"
-                        android:orientation="vertical"
-                >
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="17sp"
-                            android:maxWidth="320dp"
-                            android:text="abcwfwefeewfefwefwfhjdsbohbverwuyvbweourbveubewuyvbwerobweovvuwboeirbveoruvbeorwbvewivberibvweiprbvwiebvwiuerv"
-                            android:layout_weight="1" android:textColor="@android:color/background_light"/>
-                    <TextView
-                            android:text="3 NOV. À 15:02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView3"
-                            android:textSize="9sp" android:layout_weight="1"
-                            android:textColor="@android:color/background_light"/>
-                </LinearLayout>
-            </LinearLayout>
-        </TableRow>
-        <TableRow
+            android:scrollbars="none" android:id="@+id/scroll_sms"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+        <android.support.constraint.ConstraintLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:gravity="end">
-            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:gravity="start"
-                          android:paddingBottom="8dp" android:paddingLeft="16dp" android:paddingRight="16dp"
-                          android:paddingTop="8dp">
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_recevied"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/LinearLayout2"
-                        app:layout_constraintBottom_toTopOf="@+id/delimiter"
-                        android:orientation="vertical"
-                >
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="17sp"
-                            android:maxWidth="320dp"
-                            android:text="qwrgqwqefwefwfwefq"
-                            android:layout_weight="1" android:textColor="@android:color/background_light"/>
-                    <TextView
-                            android:text="3 NOV. À 15:02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView3"
-                            android:textSize="9sp" android:layout_weight="1"
-                            android:textColor="@android:color/background_light"/>
-                </LinearLayout>
-            </LinearLayout>
-        </TableRow>
+            <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:stretchColumns="*"
+                    android:gravity="bottom" android:id="@+id/message_table"
+                    android:isScrollContainer="true">
+            </TableLayout>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:gravity="end">
-            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:gravity="end"
-                          android:paddingBottom="8dp" android:paddingLeft="16dp" android:paddingRight="16dp"
-                          android:paddingTop="8dp">
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_sent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/LinearLayout2"
-                        app:layout_constraintBottom_toTopOf="@+id/delimiter"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="17sp"
-                            android:maxWidth="320dp" android:text="Whouuuhouuuu" android:layout_weight="1"/>
-                    <TextView
-                            android:text="3 NOV. À 15:02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView3"
-                            android:textSize="9sp" android:layout_weight="1"/>
-                </LinearLayout>
-            </LinearLayout>
-        </TableRow>
-
-    </TableLayout>
 </android.support.constraint.ConstraintLayout>
