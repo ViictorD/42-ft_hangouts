@@ -1,11 +1,13 @@
 package com.example.ft_hangouts.Utility
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.Log
 import android.widget.Toast
 import com.example.ft_hangouts.MainActivity
+import com.example.ft_hangouts.R
 import com.google.gson.Gson
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -20,23 +22,33 @@ fun getDp(dp: Int): Int
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun getSmsDateNow(): String
+fun getDateNowStr(): String
 {
-    val current = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val dateTime = LocalDateTime.now()
+    return dateTime.format(formatter)
+}
 
-    val month_fr = arrayOf("JAN", "FEV", "MAR", "AVR", "MAI", "JUN", "JUL", "AOU", "SEP", "OCT", "NOV", "DEC")
-    val month_en = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+@RequiresApi(Build.VERSION_CODES.O)
+fun getSmsDateNow(context: Context, strdate: String): String
+{
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val current = LocalDateTime.parse(strdate, formatter)
+    val month = arrayOf(context.getString(R.string.january),
+        context.getString(R.string.february),
+        context.getString(R.string.march),
+        context.getString(R.string.april),
+        context.getString(R.string.may),
+        context.getString(R.string.june),
+        context.getString(R.string.july),
+        context.getString(R.string.august),
+        context.getString(R.string.september),
+        context.getString(R.string.october),
+        context.getString(R.string.november),
+        context.getString(R.string.december))
 
-    if (MainActivity.getLanguage.language == "fr")
-    {
-        return current.dayOfMonth.toString() + " " + month_fr[current.monthValue - 1] + ". À " +
-                current.hour.toString() + ":" + current.minute.toString()
-    }
-    else
-    {
-        return current.dayOfMonth.toString() + " " + month_en[current.monthValue - 1] + ". AT " +
-                current.hour.toString() + ":" + current.minute.toString()
-    }
+    return current.dayOfMonth.toString() + " " + month[current.monthValue - 1] + ". " +
+            context.getString(R.string.at) + " " + current.hour.toString() + ":" + current.minute.toString()
 }
 
 fun stringToSms(data: String?): MutableList<Sms>

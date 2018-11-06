@@ -6,4 +6,5 @@
           android:title="@string/action_background"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+    <item android:title="@string/language" android:id="@+id/language"/>
 </menu>

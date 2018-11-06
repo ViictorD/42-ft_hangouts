@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ft_hangouts</string>
+    <string name="action_background">Theme</string>
+    <string name="first_name_txt">Prenom</string>
+    <string name="last_name_txt">Nom</string>
+    <string name="phone_number_txt">Telephone</string>
+    <string name="save_button">SAUVEGARDER</string>\
+    <string name="add_picture">Ajouter une image</string>
+    <string name="user">Utilisateur</string>
+    <string name="add_contat">Nouveau contact</string>
+    <string name="field_missing">Champ manquant</string>
+    <string name="contact_updated">Contact mis à jour</string>
+    <string name="contact_created">Contact cree</string>
+    <string name="contact_deleted">Contact supprime</string>
+    <string name="choose_color">Couleur</string>
+    <string name="blue">Bleu</string>
+    <string name="green">Vert</string>
+    <string name="need_perm">Permission requis</string>
+    <string name="title_activity_user_details">UserDetails</string>
+    <string name="at">À</string>
+    <string name="january">JAN</string>
+    <string name="february">FEV</string>
+    <string name="march">MAR</string>
+    <string name="april">AVR</string>
+    <string name="may">MAI</string>
+    <string name="june">JUN</string>
+    <string name="july">JUL</string>
+    <string name="august">AOU</string>
+    <string name="september">SEP</string>
+    <string name="october">OCT</string>
+    <string name="november">NOV</string>
+    <string name="december">DEC</string>
+    <string name="language">Langue</string>
+    <string name="french">Français</string>
+    <string name="english">Anglais</string>
+</resources>

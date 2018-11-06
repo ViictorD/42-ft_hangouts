@@ -29,28 +29,25 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
-
+import android.util.Log
 
 
 class MainActivity : AppCompatActivity() {
 
     var bckgnd_time: Date = Calendar.getInstance().time
     var myActivity: Boolean = true
-
-    object getLanguage {
-        @JvmStatic var language = "en"
-    }
+    var myLocale: Locale? = null
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loadLocale()
         setSupportActionBar(toolbar)
         fab.setOnClickListener {
             this.myActivity = true
-            startActivityForResult(Intent(this, CreateContact::class.java),  1/*, ActivityOptions.makeSceneTransitionAnimation(this).toBundle()*/)
+            startActivityForResult(Intent(this, CreateContact::class.java),  1)
         }
-
         try {
             this.fill_user()
         } catch (e: Exception)
@@ -128,7 +125,6 @@ class MainActivity : AppCompatActivity() {
         val txt = TextView(this)
         txt.id = View.generateViewId()
         val txtparam = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
-//        txt.setBackgroundColor(Color.BLUE)
         txt.text = user.firstName + " " + user.lastName
         txt.textSize = 30.0f
         txt.layoutParams = txtparam
@@ -136,7 +132,6 @@ class MainActivity : AppCompatActivity() {
         constrain.addView(txt)
 
         val set = ConstraintSet()
-//        set.clone(constrain)
         set.connect(txt.id, ConstraintSet.TOP, constrain.id, ConstraintSet.TOP, 32)
         set.connect(txt.id, ConstraintSet.RIGHT, constrain.id, ConstraintSet.RIGHT, 64)
         set.connect(txt.id, ConstraintSet.BOTTOM, constrain.id, ConstraintSet.BOTTOM, 32)
@@ -151,22 +146,74 @@ class MainActivity : AppCompatActivity() {
         scroll.addView(ll)
     }
 
+//    fun setLanguage(lang: String)
+//    {
+//        this.myLocale = Locale(lang)
+//        var dm = resources.displayMetrics
+//        var conf = resources.configuration
+//        conf.locale = this.myLocale
+//        resources.updateConfiguration(conf, dm)
+////        startActivity(Intent(this, MainActivity::class.java))
+//    }
+
+    fun loadLocale()
+    {
+        val langPref = "Language"
+        val prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE)
+        val language = prefs.getString(langPref, "")
+
+        changeLang(language)
+    }
+
+    fun changeLang(lang: String?)
+    {
+        if (lang!!.equals("", ignoreCase = true))
+            return
+        this.myLocale = Locale(lang)
+        saveLocale(lang)
+        Locale.setDefault(myLocale)
+        val config = android.content.res.Configuration()
+        config.locale = myLocale
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
+    fun saveLocale(lang: String)
+    {
+        val langPref = "Language"
+        val prefs = getSharedPreferences(
+            "CommonPrefs",
+            Activity.MODE_PRIVATE
+        )
+        val editor = prefs.edit()
+        editor.putString(langPref, lang)
+        editor.commit()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-         //Handle action bar item clicks here. The action bar will
-         //automatically handle clicks on the Home/Up button, so long
-         //as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_color -> {
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Pick a color");
-                builder.setItems(arrayOf("Blue", "Green")) { _, which ->
+                builder.setTitle(resources.getString(R.string.choose_color))
+                builder.setItems(arrayOf(resources.getString(R.string.blue), resources.getString(R.string.green))) { _, which ->
                     finish()
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                builder.show()
+                true
+            }
+            R.id.language -> {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle(resources.getString(R.string.language))
+                builder.setItems(arrayOf(resources.getString(R.string.french), resources.getString(R.string.english))) { _, which ->
+                    if (which == 0)
+                        changeLang("fr")
+                    else
+                        changeLang("en")
                     startActivity(Intent(this, MainActivity::class.java))
                 }
                 builder.show()

@@ -13,15 +13,11 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.telephony.SmsManager
-import android.util.Log
 import android.view.Gravity
 import android.widget.*
-import com.example.ft_hangouts.R.string.user
 import com.example.ft_hangouts.Utility.*
 import com.example.ft_hangouts.database.AppDatabase
-import kotlinx.android.synthetic.main.activity_message.*
-import android.view.View.OnFocusChangeListener
-
+import java.time.LocalDateTime
 
 
 class Message : AppCompatActivity() {
@@ -73,7 +69,8 @@ class Message : AppCompatActivity() {
     fun action_send()
     {
         val sms = SmsManager.getDefault()
-        val date = getSmsDateNow()
+        val date_now = getDateNowStr()
+        val date = getSmsDateNow(this, date_now)
         val message = findViewById<TextView>(R.id.message).text.toString()
         try {
             if (findViewById<TextView>(R.id.message).text.length > 160)
@@ -82,7 +79,8 @@ class Message : AppCompatActivity() {
                 sms.sendTextMessage(this.phone_number, null, message, null, null)
             this.add_send_msg(date, message)
             findViewById<TextView>(R.id.message).text = ""
-            addMessageDb(date, message, true)
+
+            addMessageDb(date_now, message, true)
         } catch (e: Exception)
         {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
@@ -97,7 +95,7 @@ class Message : AppCompatActivity() {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED))
                this.action_send()
             else
-                Toast.makeText(applicationContext, "Need permission to send sms", Toast.LENGTH_LONG).show() // mettre dans string.xml
+                Toast.makeText(applicationContext, resources.getText(R.string.need_perm), Toast.LENGTH_LONG).show()
             return
         }
         else if (requestCode == 2 && grantResults[0] == PackageManager.PERMISSION_DENIED)
@@ -242,9 +240,9 @@ class Message : AppCompatActivity() {
                     for (item in lst_sms)
                     {
                         if (item.sent)
-                            this.add_send_msg(item.date, item.message)
+                            this.add_send_msg(getSmsDateNow(this, item.date), item.message)
                         else
-                            this.add_receveid_msg(item.date, item.message)
+                            this.add_receveid_msg(getSmsDateNow(this, item.date), item.message)
                     }
                     this.scrollDown(View(this))
                 }

@@ -25,6 +25,7 @@ import com.example.ft_hangouts.database.User
 import kotlinx.android.synthetic.main.activity_user_details.*
 import java.io.ByteArrayInputStream
 import java.lang.Exception
+import java.util.*
 import java.util.jar.Manifest
 
 
@@ -40,7 +41,7 @@ class UserDetails : AppCompatActivity() {
         setSupportActionBar(t)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.title = "User details" // mettre dans string.xml
+        supportActionBar!!.title = "Detail"
 
         val firstname = intent.getStringExtra("firstname")
         val lastname = intent.getStringExtra("lastname")
@@ -75,7 +76,7 @@ class UserDetails : AppCompatActivity() {
                 startActivity(intent)
             }
             else
-                Toast.makeText(applicationContext, "Need permission to call", Toast.LENGTH_LONG).show() // mettre dans string.xml
+                Toast.makeText(applicationContext, resources.getText(R.string.need_perm), Toast.LENGTH_LONG).show()
             return
         }
     }
@@ -102,7 +103,7 @@ class UserDetails : AppCompatActivity() {
             val user = db.userDao().findById(this.id)
             db.userDao().delete(user)
             runOnUiThread {
-                Toast.makeText(applicationContext, "User deleted", Toast.LENGTH_LONG).show() // mettre dans string.xml
+                Toast.makeText(applicationContext, resources.getText(R.string.contact_deleted), Toast.LENGTH_LONG).show()
             }
             finish()
         }.execute()

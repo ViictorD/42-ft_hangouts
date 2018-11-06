@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi
 import android.telephony.SmsManager
 import android.telephony.SmsMessage
 import android.util.Log
+import com.example.ft_hangouts.Utility.getDateNowStr
 import com.example.ft_hangouts.Utility.getSmsDateNow
 
 
@@ -28,24 +29,19 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
 
                 val pdusObj = bundle.get("pdus") as Array<Any>
 
-                var phoneNumber = ""
                 var message = ""
                 for (i in pdusObj.indices)
                 {
                     var currentMessage = SmsMessage.createFromPdu(pdusObj[i] as ByteArray)
-                    phoneNumber = currentMessage.displayOriginatingAddress
                     message += currentMessage.displayMessageBody
-                } // end for loop
-                if (Message.Instance.instance != null)
-                {
-                    val date = getSmsDateNow()
-                    Message.Instance.instance!!.add_receveid_msg(date, message)
-                    Message.Instance.instance!!.addMessageDb(date, message, false)
                 }
+                val date_str = getDateNowStr()
+                val date = getSmsDateNow(context, date_str)
 
-//                Toast.makeText(context,"senderNum: $phoneNumber, message: $message", Toast.LENGTH_LONG).show()
-            } // bundle is null
-
+                if (Message.Instance.instance != null)
+                    Message.Instance.instance!!.add_receveid_msg(date, message)
+                Message.Instance.instance!!.addMessageDb(date_str, message, false)
+            }
         } catch (e: Exception) {
             Log.e("SmsReceiver", "Exception smsReceiver$e")
         }

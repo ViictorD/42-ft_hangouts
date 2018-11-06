@@ -1,9 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.example.ft_hangouts.UserDetails">
-    <item android:id="@+id/action_color"
-          android:title="@string/action_background"
-          android:orderInCategory="100"
-          app:showAsAction="never"/>
-</menu>
