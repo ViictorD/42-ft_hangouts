@@ -9,14 +9,20 @@ import android.view.View
 import java.lang.Exception
 import android.annotation.TargetApi
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.support.annotation.RequiresApi
+import android.support.v7.widget.Toolbar
 import android.telephony.SmsManager
+import android.util.Log
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.*
 import com.example.ft_hangouts.Utility.*
 import com.example.ft_hangouts.database.AppDatabase
+import kotlinx.android.synthetic.main.activity_message.*
 import java.time.LocalDateTime
 
 
@@ -31,11 +37,16 @@ class Message : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun onCreate(savedInstanceState: Bundle?) {
+        applyTheme(this, MainActivity.Theme.theme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
+        val tb = findViewById<Toolbar>(R.id.toolbar4)
+        setSupportActionBar(tb)
+
+        supportActionBar!!.title =  "Message"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.title = "Message"
+
         this.phone_number = intent.getStringExtra("phone")
         this.user_id = intent.getIntExtra("id", -1)
         Message.Instance.instance = this
@@ -114,7 +125,10 @@ class Message : AppCompatActivity() {
         linear1.setPadding(16, 8, 16, 8)
 
         val shape = GradientDrawable()
-        shape.setColor(Color.parseColor("#FF008577"))
+        if (MainActivity.Theme.theme == "blue")
+            shape.setColor(Color.parseColor("#FF006BBD"))
+        else
+            shape.setColor(Color.parseColor("#FF008577"))
         shape.setStroke(0, Color.parseColor("#C4CDE0"))
         shape.cornerRadius = getDp(15).toFloat()
 

@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import com.example.ft_hangouts.Utility.applyTheme
 import com.example.ft_hangouts.Utility.doAsync
 import com.example.ft_hangouts.database.AppDatabase
 import com.example.ft_hangouts.database.User
@@ -31,6 +32,7 @@ class CreateContact : AppCompatActivity() {
     private var image: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applyTheme(this, MainActivity.Theme.theme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_contact)
         val t = findViewById<Toolbar>(R.id.toolbar2)
@@ -108,14 +110,14 @@ class CreateContact : AppCompatActivity() {
         val lastname = findViewById<EditText>(R.id.input_last_name).text.toString()
         var phone = findViewById<EditText>(R.id.input_phone).text.toString()
 
-        if (phone[0] == '0')
-            phone = "+33" + phone.substring(1, phone.length)
-
         if (firstname.isEmpty() || phone.isEmpty())
         {
             Toast.makeText(applicationContext, resources.getString(R.string.field_missing), Toast.LENGTH_LONG).show()
             return
         }
+
+        if (phone[0] == '0')
+            phone = "+33" + phone.substring(1, phone.length)
 
         var byteArray: ByteArray? = null
 

@@ -1,11 +1,13 @@
 package com.example.ft_hangouts.Utility
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.Log
 import android.widget.Toast
+import android.widget.Toolbar
 import com.example.ft_hangouts.MainActivity
 import com.example.ft_hangouts.R
 import com.google.gson.Gson
@@ -61,4 +63,40 @@ fun stringToSms(data: String?): MutableList<Sms>
 fun smsToString(someObjects: MutableList<Sms>): String
 {
     return Gson().toJson(someObjects)
+}
+
+fun setupTheme(context: Context)
+{
+    val langPref = "Theme"
+    val prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE)
+    val theme = prefs.getString(langPref, "")
+    if (theme == "blue")
+        MainActivity.Theme.theme = "blue"
+    else
+        MainActivity.Theme.theme = "green"
+}
+
+fun saveTheme(context: Context, theme: String)
+{
+    val langPref = "Theme"
+    val prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE)
+    val editor = prefs.edit()
+    editor.putString(langPref, theme)
+    editor.commit()
+}
+
+fun applyTheme(context: Context, theme: String)
+{
+    if (theme == "blue")
+    {
+        context.setTheme(R.style.AppTheme_Blue)
+        MainActivity.Theme.theme = "blue"
+        saveTheme(context, "blue")
+    }
+    else
+    {
+        context.setTheme(R.style.AppTheme_Green)
+        MainActivity.Theme.theme = "green"
+        saveTheme(context, "green")
+    }
 }

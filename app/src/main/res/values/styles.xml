@@ -4,8 +4,13 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:colorForeground">@android:color/white</item>
+        <item name="android:textColorPrimaryInverse">@android:color/transparent</item>
+        <item name="android:textColorSecondary">@android:color/background_light</item>
+        <item name="android:navigationBarColor">@color/gray_nav_button</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -13,5 +18,32 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AppTheme.Blue" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/myBlue</item>
+        <item name="colorPrimaryDark">@color/myBlue</item>
+        <item name="colorAccent">@color/design_default_color_primary</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:colorForeground">@android:color/white</item>
+        <item name="android:textColorPrimaryInverse">@android:color/transparent</item>
+        <item name="android:textColorSecondary">@android:color/background_light</item>
+        <item name="android:navigationBarColor">@color/gray_nav_button</item>
+    </style>
+
+    <style name="AppTheme.Green" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:colorForeground">@android:color/white</item>
+        <item name="android:textColorPrimaryInverse">@android:color/transparent</item>
+        <item name="android:textColorSecondary">@android:color/background_light</item>
+        <item name="android:navigationBarColor">@color/gray_nav_button</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
 
 </resources>

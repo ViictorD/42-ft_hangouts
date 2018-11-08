@@ -3,7 +3,35 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@android:color/background_light</item>
+        <item name="android:navigationBarColor">@color/gray_nav_button</item>
+        <item name="android:colorForeground">@android:color/background_light</item>
+        <item name="android:textColorPrimaryInverse">@android:color/transparent</item>
+        <item name="android:textColorSecondary">@android:color/background_light</item>
+    </style>
+    <style name="Theme.AppTheme.Light.NoActionBar" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/myBlue</item>
+        <item name="android:colorPrimaryDark">@color/myBlue</item>
+        <item name="android:colorAccent">@color/design_default_color_primary</item>
+    </style>
+    <style name="AppTheme.Blue" parent="Theme.AppTheme.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/myBlue</item>
+        <item name="android:colorPrimaryDark">@color/myBlue</item>
+        <item name="android:statusBarColor">?android:attr/colorPrimary</item>
+        <item name="android:colorForeground">@android:color/white</item>
+        <item name="android:navigationBarColor">@color/gray_nav_button</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/background_light</item>
+    </style>
+    <style name="AppTheme.Green" parent="Theme.AppTheme.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimary</item>
+        <item name="android:statusBarColor">?android:attr/colorPrimary</item>
+        <item name="android:colorForeground">@android:color/white</item>
+        <item name="android:navigationBarColor">@color/gray_nav_button</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/background_light</item>
     </style>
 </resources>

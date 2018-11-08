@@ -32,9 +32,13 @@
         <activity
                 android:name=".UserDetails"
                 android:label="@string/title_activity_user_details"
+                android:parentActivityName=".MainActivity"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Message" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".Message"
+                  android:windowSoftInputMode="adjustPan"
+                  android:parentActivityName=".UserDetails"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <receiver android:name="com.example.ft_hangouts.SmsBroadcastReceiver">
             <intent-filter>

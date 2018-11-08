@@ -19,6 +19,7 @@ import android.widget.ImageButton
 import android.widget.TableLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.example.ft_hangouts.Utility.applyTheme
 import com.example.ft_hangouts.Utility.doAsync
 import com.example.ft_hangouts.database.AppDatabase
 import com.example.ft_hangouts.database.User
@@ -34,6 +35,7 @@ class UserDetails : AppCompatActivity() {
     var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applyTheme(this, MainActivity.Theme.theme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_details)
 

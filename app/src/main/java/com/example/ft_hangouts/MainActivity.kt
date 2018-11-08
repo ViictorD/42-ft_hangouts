@@ -13,12 +13,10 @@ import android.support.annotation.RequiresApi
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity;
 import android.widget.*
-import com.example.ft_hangouts.Utility.doAsync
 import com.example.ft_hangouts.database.AppDatabase
 import com.example.ft_hangouts.database.User
 
 import kotlinx.android.synthetic.main.activity_main.*
-import com.example.ft_hangouts.Utility.getDp
 import android.support.constraint.ConstraintSet
 import android.support.v7.app.AlertDialog
 import android.view.Menu
@@ -29,7 +27,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
+import android.graphics.drawable.ColorDrawable
+import android.support.v7.widget.Toolbar
 import android.util.Log
+import com.example.ft_hangouts.Utility.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,12 +39,19 @@ class MainActivity : AppCompatActivity() {
     var myActivity: Boolean = true
     var myLocale: Locale? = null
 
+    object Theme {
+        @JvmStatic var theme = "green"
+    }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupTheme(this)
+        applyTheme(this, MainActivity.Theme.theme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val t = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(t)
         loadLocale()
-        setSupportActionBar(toolbar)
         fab.setOnClickListener {
             this.myActivity = true
             startActivityForResult(Intent(this, CreateContact::class.java),  1)
@@ -146,16 +154,6 @@ class MainActivity : AppCompatActivity() {
         scroll.addView(ll)
     }
 
-//    fun setLanguage(lang: String)
-//    {
-//        this.myLocale = Locale(lang)
-//        var dm = resources.displayMetrics
-//        var conf = resources.configuration
-//        conf.locale = this.myLocale
-//        resources.updateConfiguration(conf, dm)
-////        startActivity(Intent(this, MainActivity::class.java))
-//    }
-
     fun loadLocale()
     {
         val langPref = "Language"
@@ -200,6 +198,10 @@ class MainActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle(resources.getString(R.string.choose_color))
                 builder.setItems(arrayOf(resources.getString(R.string.blue), resources.getString(R.string.green))) { _, which ->
+                    if (which == 0)
+                        saveTheme(this, "blue")
+                    else
+                        saveTheme(this, "green")
                     finish()
                     startActivity(Intent(this, MainActivity::class.java))
                 }
@@ -214,6 +216,7 @@ class MainActivity : AppCompatActivity() {
                         changeLang("fr")
                     else
                         changeLang("en")
+                    finish()
                     startActivity(Intent(this, MainActivity::class.java))
                 }
                 builder.show()
