@@ -10,6 +10,9 @@ public interface UserDao {
     @Query("SELECT * FROM user WHERE id = :uid")
     fun findById(uid: Int): User
 
+    @Query("SELECT * FROM user WHERE phone = :number")
+    fun findByNumber(number: String): User
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: User)
 

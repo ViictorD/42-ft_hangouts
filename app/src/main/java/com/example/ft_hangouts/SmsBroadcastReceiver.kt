@@ -11,6 +11,7 @@ import android.telephony.SmsMessage
 import android.util.Log
 import com.example.ft_hangouts.Utility.getDateNowStr
 import com.example.ft_hangouts.Utility.getSmsDateNow
+import com.example.ft_hangouts.database.DbFunctions
 
 
 class SmsBroadcastReceiver : BroadcastReceiver() {
@@ -30,10 +31,12 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
 
                 val pdusObj = bundle.get("pdus") as Array<Any>
 
+                var number = ""
                 var message = ""
                 for (i in pdusObj.indices)
                 {
                     var currentMessage = SmsMessage.createFromPdu(pdusObj[i] as ByteArray)
+                    number = currentMessage.displayOriginatingAddress
                     message += currentMessage.displayMessageBody
                 }
                 val date_str = getDateNowStr()
@@ -41,7 +44,7 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
 
                 if (Message.Instance.instance != null)
                     Message.Instance.instance!!.add_receveid_msg(date, message)
-                Message.Instance.instance!!.addMessageDb(date_str, message, false)
+                DbFunctions.addMessageDb(context, number, date_str, message, false)
             }
         } catch (e: Exception) {
             Log.e("SmsReceiver", "Exception smsReceiver$e")

@@ -115,8 +115,8 @@ class UserDetails : AppCompatActivity() {
     {
         val intent = Intent(this, CreateContact::class.java)
         intent.putExtra("id", this.id)
+        intent.putExtra("edit", "1")
         startActivityForResult(intent, 1)
-        // sur on receive on refresh les datas
     }
 
     fun goSms(view: View)

@@ -8,6 +8,7 @@
     <string name="add_picture">Add picture</string>
     <string name="user">User</string>
     <string name="add_contat">New contact</string>
+    <string name="edit_contat">Edit contact</string>
     <string name="field_missing">Field missing</string>
     <string name="contact_updated">Contact updated</string>
     <string name="contact_created">Contact created</string>

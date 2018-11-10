@@ -8,6 +8,7 @@
     <string name="add_picture">Ajouter une image</string>
     <string name="user">Utilisateur</string>
     <string name="add_contat">Nouveau contact</string>
+    <string name="edit_contat">Modification du contact</string>
     <string name="field_missing">Champ manquant</string>
     <string name="contact_updated">Contact mis à jour</string>
     <string name="contact_created">Contact cree</string>

@@ -38,7 +38,10 @@ class CreateContact : AppCompatActivity() {
         val t = findViewById<Toolbar>(R.id.toolbar2)
         setSupportActionBar(t)
 
-        supportActionBar!!.title =  resources.getString(R.string.add_contat)
+        if (intent.getStringExtra("edit") != null)
+            supportActionBar!!.title =  resources.getString(R.string.edit_contat)
+        else
+            supportActionBar!!.title =  resources.getString(R.string.add_contat)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
@@ -151,15 +154,19 @@ class CreateContact : AppCompatActivity() {
         finish()
     }
 
-    fun getNewId(db: AppDatabase): Int
-    {
-        val users = db.userDao().getAll()
-        var max: Int = 0
-        for (item in users)
+    companion object {
+        fun getNewId(db: AppDatabase): Int
         {
-            if (item.id > max)
-                max = item.id
+            val users = db.userDao().getAll()
+            var max: Int = 0
+            for (item in users)
+            {
+                if (item.id > max)
+                    max = item.id
+            }
+            return ++max
         }
-        return ++max
     }
+
+
 }

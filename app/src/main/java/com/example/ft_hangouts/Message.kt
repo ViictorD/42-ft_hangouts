@@ -22,6 +22,7 @@ import android.view.MenuItem
 import android.widget.*
 import com.example.ft_hangouts.Utility.*
 import com.example.ft_hangouts.database.AppDatabase
+import com.example.ft_hangouts.database.DbFunctions
 import kotlinx.android.synthetic.main.activity_message.*
 import java.time.LocalDateTime
 
@@ -58,6 +59,11 @@ class Message : AppCompatActivity() {
 
     }
 
+    override fun onStop() {
+        super.onStop()
+        Message.Instance.instance = null
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
@@ -91,7 +97,12 @@ class Message : AppCompatActivity() {
             this.add_send_msg(date, message)
             findViewById<TextView>(R.id.message).text = ""
 
-            addMessageDb(date_now, message, true)
+            doAsync {
+                val db = AppDatabase.getInstance(this)
+                val user = db.userDao().findById(this.user_id)
+                DbFunctions.addMessageDb(this, user.phone, date_now, message, true)
+            }.execute()
+
         } catch (e: Exception)
         {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
@@ -222,24 +233,6 @@ class Message : AppCompatActivity() {
         }
     }
 
-    fun addMessageDb(date: String, msg: String, sent: Boolean)
-    {
-        doAsync {
-            try {
-                val db = AppDatabase.getInstance(this)
-                val user = db.userDao().findById(this.user_id)
-                var lst_sms: MutableList<Sms> = mutableListOf()
-                if (user.sms.length > 0)
-                    lst_sms = stringToSms(user.sms)
-                lst_sms.add(Sms(date, msg, sent))
-                user.sms = smsToString(lst_sms)
-                db.userDao().updateUser(user)
-
-            } catch (e: Exception) {
-                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
-            }
-        }.execute()
-    }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     fun loadSms()
