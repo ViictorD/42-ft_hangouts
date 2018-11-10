@@ -23,7 +23,6 @@ class DbFunctions {
                         user = User(CreateContact.getNewId(db), phone_number, "", phone_number, null, "")
                         db.userDao().insert(user)
                     }
-
                     var lst_sms: MutableList<Sms> = mutableListOf()
                     if (user.sms.length > 0)
                         lst_sms = stringToSms(user.sms)

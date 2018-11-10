@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
         val constrain = ConstraintLayout(this)
         constrain.id = View.generateViewId()
-        constrain.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, getDp(70))
+        constrain.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, getDp(72))
         constrain.setOnClickListener {
             val intent = Intent(this, UserDetails::class.java)
             intent.putExtra("id", user.id)
@@ -137,13 +137,27 @@ class MainActivity : AppCompatActivity() {
         txt.textSize = 30.0f
         txt.layoutParams = txtparam
 
+        val lastmsg = TextView(this)
+        lastmsg.id = View.generateViewId()
+        val txtparam2 = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+        lastmsg.text = this.getLastSms(user)
+        lastmsg.textSize = 12.0f
+        lastmsg.layoutParams = txtparam2
+
+
         constrain.addView(txt)
+        constrain.addView(lastmsg)
 
         val set = ConstraintSet()
-        set.connect(txt.id, ConstraintSet.TOP, constrain.id, ConstraintSet.TOP, 32)
+        set.connect(txt.id, ConstraintSet.TOP, constrain.id, ConstraintSet.TOP, 16)
         set.connect(txt.id, ConstraintSet.RIGHT, constrain.id, ConstraintSet.RIGHT, 64)
-        set.connect(txt.id, ConstraintSet.BOTTOM, constrain.id, ConstraintSet.BOTTOM, 32)
         set.connect(txt.id, ConstraintSet.LEFT, constrain.id, ConstraintSet.LEFT, 64)
+        set.connect(txt.id, ConstraintSet.BOTTOM, constrain.id, ConstraintSet.BOTTOM, 70)
+        set.connect(lastmsg.id, ConstraintSet.TOP, txt.id, ConstraintSet.BOTTOM, 0)
+        set.connect(lastmsg.id, ConstraintSet.RIGHT, constrain.id, ConstraintSet.RIGHT, 64)
+        set.connect(lastmsg.id, ConstraintSet.LEFT, constrain.id, ConstraintSet.LEFT, 64)
+        set.connect(lastmsg.id, ConstraintSet.BOTTOM, constrain.id, ConstraintSet.BOTTOM, 16)
+
         set.applyTo(constrain)
 
         scroll.addView(constrain)
@@ -152,6 +166,16 @@ class MainActivity : AppCompatActivity() {
         ll.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getDp(1))
         ll.setBackgroundColor(Color.GRAY)
         scroll.addView(ll)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getLastSms(user: User): String
+    {
+        if (user.sms.length == 0)
+            return ""
+        val lst_sms = stringToSms(user.sms)
+        return "➤ " + lst_sms.last().message
+
     }
 
     fun loadLocale()

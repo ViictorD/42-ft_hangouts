@@ -9,12 +9,14 @@ import android.provider.MediaStore
 import android.graphics.Bitmap
 import android.app.Activity
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.example.ft_hangouts.Utility.applyTheme
 import com.example.ft_hangouts.Utility.doAsync
+import com.example.ft_hangouts.Utility.getDp
 import com.example.ft_hangouts.database.AppDatabase
 import com.example.ft_hangouts.database.User
 import java.io.ByteArrayInputStream
@@ -29,7 +31,6 @@ class CreateContact : AppCompatActivity() {
     val GET_FROM_GALLERY = 3
     private var id: Int = -1
 
-    private var image: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applyTheme(this, MainActivity.Theme.theme)
@@ -62,7 +63,15 @@ class CreateContact : AppCompatActivity() {
                 }
             }.execute()
         }
+        else if (CreateContact.image != null)
+            findViewById<ImageButton>(R.id.image).setImageBitmap(CreateContact.image)
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFinishing)
+            CreateContact.image = null
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -79,30 +88,31 @@ class CreateContact : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
-        //Detects request codes
         if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             val selectedImage = data!!.data
             try {
                 val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
                 val button = findViewById<ImageButton>(R.id.image)
-                var toremove = 0
-                var percent = 100
-                if (bitmap.height > 600)
+                val img = findViewById<ImageButton>(R.id.image)
+
+                if (bitmap.width > img.width)
                 {
-                    toremove = bitmap.height - 600
-                    percent = (toremove * 100) / bitmap.height
+                    var height = bitmap.height / (bitmap.width / img.width)
+                    CreateContact.image = Bitmap.createScaledBitmap(bitmap, img.width, height, false)
                 }
-
-                this.image = Bitmap.createScaledBitmap(bitmap, bitmap.width - ((bitmap.width * percent) / 100), bitmap.height - toremove, false)
-
-                button.setImageBitmap(this.image)
-
-
-            } catch (e: FileNotFoundException) {
-                this.image = null
-            } catch (e: IOException) {
-                this.image = null
+                else if (bitmap.height > img.height)
+                {
+                    var width = bitmap.width / (bitmap.height / img.height)
+                    CreateContact.image = Bitmap.createScaledBitmap(bitmap, width, img.height, false)
+                }
+                else
+                    CreateContact.image = Bitmap.createScaledBitmap(bitmap, bitmap.width, bitmap.height, false)
+                button.setImageBitmap(CreateContact.image)
+            }
+            catch (e: Exception)
+            {
+                CreateContact.image = null
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -124,10 +134,10 @@ class CreateContact : AppCompatActivity() {
 
         var byteArray: ByteArray? = null
 
-        if (this.image != null)
+        if (CreateContact.image != null)
         {
             val stream = ByteArrayOutputStream()
-            this.image!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            CreateContact.image!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
             byteArray = stream.toByteArray()
         }
 
@@ -155,6 +165,9 @@ class CreateContact : AppCompatActivity() {
     }
 
     companion object {
+        @JvmStatic
+        private var image: Bitmap? = null
+
         fun getNewId(db: AppDatabase): Int
         {
             val users = db.userDao().getAll()
@@ -167,6 +180,4 @@ class CreateContact : AppCompatActivity() {
             return ++max
         }
     }
-
-
 }

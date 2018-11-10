@@ -25,7 +25,6 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
         val bundle = intent.extras
 
         try {
-            Log.i("LAAA", "SMS reveived !")
 
             if (bundle != null) {
 

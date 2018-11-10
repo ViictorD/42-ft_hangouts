@@ -54,9 +54,16 @@ class UserDetails : AppCompatActivity() {
         val img = intent.getByteArrayExtra("img")
         if (img != null)
         {
-            val stream = ByteArrayInputStream(img)
-            val new_img = BitmapFactory.decodeStream(stream)
-            findViewById<ImageButton>(R.id.image).setImageBitmap(new_img)
+            try {
+                val stream = ByteArrayInputStream(img)
+                val new_img = BitmapFactory.decodeStream(stream)
+                findViewById<ImageButton>(R.id.image).setImageBitmap(new_img)
+            }
+            catch (e: Exception)
+            {
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+            }
+
         }
         this.id = intent.getIntExtra("id", 0)
     }
